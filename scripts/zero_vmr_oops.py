@@ -16,10 +16,12 @@ if __name__ == '__main__':
   dataset_name = 'uag_oops' #arg
   data_loader = Dataloader(config, dataset_name)
   
+  # run zero_vmr for one video 
   for video_path, video_id, values in data_loader:
     print(video_path, video_id, values)
     # video = load_video(video_path)
     # print(video)
-    load_video(video_path, fps = 1)
-
+    description = values['description']
+    # video = load_video(video_path, fps = 1)
+    snipped_query_scores = calculate_snippet_query_scores(video_path,model, vis_processors, text_processors, fps =1, query = description)
     break
