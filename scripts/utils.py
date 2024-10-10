@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import torch.nn.functional as F
 from lavis.models import load_model_and_preprocess
 from torchvision import transforms
 from decord import VideoReader, cpu
@@ -21,7 +22,6 @@ def load_model_and_processors(config:object, vlm_name:str, device:str):
     vis_processors = transforms.Compose([
         t for t in vis_processors['eval'].transform.transforms if not isinstance(t, transforms.ToTensor)
     ])
-    model,vis_processors,text_processors= None,None,None
     return model, vis_processors, text_processors
 
 class Dataloader: 
@@ -74,14 +74,14 @@ def load_video(video_path:str, fps = 3):
     print(f"length of all_index: {len(all_index)}")
     vr.seek(0)
     print(f"vr.get_batch(all_index).shape: {vr.get_batch(all_index).shape}")
-    # buffer = vr.get_batch(all_index).permute(0, 3, 1, 2) / 255.
-    buffer = np.transpose(vr.get_batch(all_index).asnumpy(), (0, 3, 1, 2)) / 255.0
+    buffer = vr.get_batch(all_index).permute(0, 3, 1, 2) / 255.
+    # buffer = np.transpose(vr.get_batch(all_index).asnumpy(), (0, 3, 1, 2)) / 255.0
     # print(f"buffer shape: {buffer.shape}")
     # print(f"type of buffer: {type(buffer)}")
     return buffer # (frames, channels, height, width)
 
 @torch.no_grad()
-def get_video_features(video_path:str, fps:int, model, vis_processors,batch_size:int):
+def get_video_features(video_path:str, fps:int, model, vis_processors,device,batch_size:int):
   """extracts video features
 
   Args:
@@ -123,8 +123,23 @@ def get_video_features(video_path:str, fps:int, model, vis_processors,batch_size
   print(f"features shape: {features.shape}")
   return features.numpy()
 
+def get_text_features(query:str, model):
+  """extracts text features
 
-def calculate_snippet_query_scores (video_path:str, model, vis_processors, text_processors, fps:int, query:str):
+  Args:
+      query (str): description
+      model (object): model
+
+  Returns:
+      numpy.ndarray: text features
+  """
+  with torch.no_grad():
+    text = model.tokenizer(query, padding='max_length', truncation=True, max_length=35, return_tensors="pt").to('cuda')                    
+    text_output = model.Qformer.bert(text.input_ids, attention_mask=text.attention_mask, return_dict=True)
+    text_feat = model.text_proj(text_output.last_hidden_state[:,0,:])
+  return text_feat
+
+def calculate_snippet_query_scores (video_path:str, model, vis_processors, text_processors, fps:int, query:str, device:str):
   """calculates snippet query scores
 
   Args:
@@ -139,8 +154,21 @@ def calculate_snippet_query_scores (video_path:str, model, vis_processors, text_
       list: snippet query scores
   """
   # video features
-  video_features = get_video_features(video_path, fps, model, vis_processors,batch_size=128)
-  print(f"video_features shape: {video_features.shape}")
- 
-  
-  return None
+  video_features = get_video_features(video_path, fps, model, vis_processors,device,batch_size=128) # (frames, 32, 256)
+  print(f"video_features shape: {video_features.shape}") 
+  # text features
+  text_features = get_text_features(query,model) # (1, 256)
+  print(f"text_features shape: {text_features.shape}")
+  # calculate scores
+  v1 = F.normalize(text_features, dim=-1)
+  v2 = F.normalize(torch.tensor(video_features, device='cuda', dtype=v1.dtype), dim=-1)
+  scores = torch.einsum('md,npd->mnp', v1, v2)
+  print(f"scores shape: {scores.shape}")
+  scores, _ = scores.max(dim=-1)
+  print(f"scores shape after max: {scores.shape}")
+  scores = scores.mean(dim=0, keepdim=True)
+  print(f"scores shape after mean: {scores.shape}")
+  print(f"scores: {scores}")
+  return scores.cpu().numpy()
+
+

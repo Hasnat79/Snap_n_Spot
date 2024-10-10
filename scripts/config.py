@@ -1,8 +1,8 @@
 DATASET = {
     'uag_oops': {
-        'file': '/scratch/user/hasnat.md.abdullah/Snap_n_Spot/data/oops_uag_paper_version.json',
+        'file': '/home/grads/h/hasnat.md.abdullah/Snap_n_Spot/data/oops_uag_paper_version.json',
         'values': ['start_time','end_time','description'],
-        'video_dir':'/scratch/user/hasnat.md.abdullah/Snap_n_Spot/data/oops_video/val'
+        'video_dir':'/home/grads/h/hasnat.md.abdullah/Snap_n_Spot/data/video'
     }
 }
 vlm = [
