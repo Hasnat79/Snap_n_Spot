@@ -1,0 +1,3 @@
+[submodule "vid_llm_models"]
+	path = vid_llm_models
+	url = https://github.com/RenShuhuai-Andy/TimeChat
