@@ -4,3 +4,6 @@
 [submodule "vid_llms/VTimeLLM"]
 	path = vid_llms/VTimeLLM
 	url = https://github.com/huangb23/VTimeLLM
+[submodule "vid_llms/VTG-GPT"]
+	path = vid_llms/VTG-GPT
+	url = https://github.com/YoucanBaby/VTG-GPT
