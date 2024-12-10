@@ -12,7 +12,8 @@ class LightweightTimeExtractor:
         self.qa_pipeline = pipeline(
             "question-answering",
             model="deepset/tinyroberta-squad2",  # Much smaller model
-            device="cpu"
+            device="cpu",
+            cache_dir = "cache"
         )
     
     def extract_times(self, text: str) -> dict:
