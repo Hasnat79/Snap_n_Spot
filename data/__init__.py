@@ -1,6 +1,7 @@
 import json
 import os
-oops_path = "/home/grads/h/hasnat.md.abdullah/Snap_n_Spot/data/oops_uag_paper_version.json"
+dir_path = "/scratch/user/hasnat.md.abdullah/Snap_n_Spot"
+oops_path =dir_path+ "/data/oops_uag_paper_version.json"
 
 uag_oops = json.load(open(oops_path))
 print(f"Number of videos: {len(uag_oops)}")
