@@ -1,6 +1,6 @@
 [submodule "vid_llms/TimeChat"]
 	path = vid_llms/TimeChat
-	url = https://github.com/RenShuhuai-Andy/TimeChat
+	url = https://github.com/RenShuhuai-Andy/TimeChat.git
 [submodule "vid_llms/VTimeLLM"]
 	path = vid_llms/VTimeLLM
 	url = https://github.com/huangb23/VTimeLLM
