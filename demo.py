@@ -48,7 +48,7 @@ def loadvideo(fname, fps=3, stride=None, max_duration=None):
 
 @torch.no_grad()
 def get_visual_features(video_path, fps=None, stride=None, max_duration=None, batch_size=128):
-    video = loadvideo(video_path, fps, stride, max_duration)
+    video,duration = loadvideo(video_path, fps, stride, max_duration)
     img = vis_processors(video)
     features = []
     for bid in range(0, img.size(0), batch_size):
@@ -68,18 +68,18 @@ def get_visual_features(video_path, fps=None, stride=None, max_duration=None, ba
         features.append(image_feats.cpu().half())
     features = torch.cat(features, dim=0)
     print(f"Features shape: {features.shape}")
-    return features.numpy()
+    return features.numpy(),duration
 
 
 def infer(video_path, query, stride=64, max_stride_factor=1, pad_sec=0.0):
     features, duration = get_visual_features(video_path, fps=3, stride=stride, max_duration=None, batch_size=128)
-    
-    ans = localize(features, duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
+    np.save('./temp/video.npy', features)
+    ans = localize('./temp', duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
     print(ans)
     return ans
 
 if __name__=='__main__':
     args = get_args()
     infer(args.video_path, args.query, stride=64, max_stride_factor=1, pad_sec=0.0)
-    
+
   
