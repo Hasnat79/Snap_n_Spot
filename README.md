@@ -48,7 +48,7 @@ python feature_extraction.py
 - genrates blip2 features for the videos in the [data](data) directory in numpy format
 
 
-## 🧠 Methodology
+## 🧠 Methodology __ [Colab demo](https://colab.research.google.com/drive/1QoMa01UGrx71p838uAXrTAokb1xPEct8?usp=sharing)
 ```bash 
 cd src
 python evaluate.py --dataset uag_oops
