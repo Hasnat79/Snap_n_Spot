@@ -1,10 +1,11 @@
 from data_configs import DATASETS
-import argparse
+
 import numpy as np
 import json
 from tqdm import tqdm
 from vlm_localizer import localize
 import os
+import argparse
 
 
 def get_args():
