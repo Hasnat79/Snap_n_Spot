@@ -73,8 +73,8 @@ def get_visual_features(video_path, fps=None, stride=None, max_duration=None, ba
 
 def infer(video_path, query, stride=64, max_stride_factor=1, pad_sec=0.0):
     features, duration = get_visual_features(video_path, fps=3, stride=stride, max_duration=None, batch_size=128)
-    np.save('./temp/video.npy', features)
-    ans = localize('./temp', duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
+    np.save('video.npy', features)
+    ans = localize('video.npy', duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
     print(ans)
     return ans
 
