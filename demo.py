@@ -3,7 +3,7 @@ import argparse
 from src.vlm_localizer import localize
 
 import torch
-
+import os
 
 
 import torch
@@ -73,8 +73,13 @@ def get_visual_features(video_path, fps=None, stride=None, max_duration=None, ba
 
 def infer(video_path, query, stride=64, max_stride_factor=1, pad_sec=0.0):
     features, duration = get_visual_features(video_path, fps=3, stride=stride, max_duration=None, batch_size=128)
-    np.save('video.npy', features)
-    ans = localize('video.npy', duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
+    root = os.path.join(os.path.dirname(__file__))
+    dir = "temp"
+    os.makedirs(dir, exist_ok=True)
+    file = os.path.join(dir, 'video.npy')
+    np.save(file, features)
+
+    ans = localize(os.path.join(root,dir), duration, [{'descriptions': [query]}], stride, int(features.shape[0] * max_stride_factor))
     print(ans)
     return ans
 
