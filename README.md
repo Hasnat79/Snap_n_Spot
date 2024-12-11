@@ -11,7 +11,7 @@ Texas A&M University
 
 
 <div align="center">
-  <img src="Figure/overview.png" alt="example" width="500"/>
+  <img src="Figure/overview.png" alt="example" width="700"/>
 </div>
 
 ## 🔧 Getting Started
