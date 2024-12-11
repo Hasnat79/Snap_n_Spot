@@ -65,6 +65,12 @@ python evaluate.py --dataset uag_oops
   ```
  </details>
 
+## Try for a single video and query
+```bash
+python demo.py \
+ --video_path "/Snap_n_Spot/data/oops_video/34 Funny Kid Nominees - FailArmy Hall Of Fame (May 2017)0.mp4" \
+ --query "A guy jumps onto a bed where his son is. When the guy jumps, the son flies up and hits the wall."
+ ```
 
 ## 📝 Evaluate any dataset using Our methodology
 - set up the dataset in the [data_configs](src/data_configs.py) file
