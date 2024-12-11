@@ -3,7 +3,7 @@
 
 ##NECESSARY JOB SPECIFICATIONS
 #SBATCH --job-name=zero_vmr_oops       #Set the job name to "JobExample4"
-#SBATCH --time=15:30:00              #Set the wall clock limit to 1hr and 30min
+#SBATCH --time=1:30:00              #Set the wall clock limit to 1hr and 30min
 #SBATCH --nodes=1                #Request 1 node
 #SBATCH --ntasks-per-node=8        #Request 8 tasks/cores per node
 #SBATCH --mem=16G                     #Request 16GB per node 

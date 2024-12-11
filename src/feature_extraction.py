@@ -78,22 +78,19 @@ if __name__=='__main__':
     oops_uag_data_path ="/scratch/user/hasnat.md.abdullah/Snap_n_Spot/data/oops_uag_paper_version.json"
     with open(oops_uag_data_path) as f:
         oops_uag_data = json.load(f)
-    videos = []
-    for video in oops_uag_data:
-        videos.append(video+".mp4")
-    print(f"Total videos: {len(videos)}")
-    print(f"videos[0]: {videos[0]}")
+    
     args = get_args()
     # videos = os.listdir(args.input_root)
     # random.shuffle(videos)
-    for video_name in tqdm(videos):
-        vid = video_name.split('.')[0]
-        save_path = os.path.join(args.save_root, vid+'.npy')
+    for video_name in tqdm(oops_uag_data.keys()):
+        save_path = os.path.join(args.save_root, video_name)+'.npy'
         if os.path.exists(save_path):
             continue
-        video_path = os.path.join(args.input_root, video_name)
-        features = get_visual_features(video_path, fps=args.fps, stride=args.stride, batch_size=args.batch_size)
-        # gpu cache available report in GB
-        # print(torch.cuda.memory_summary(device=None, abbreviated=False))
-        np.save(save_path, features)
+        else: 
+            print(f"does not exist: {save_path}")
+            video_path = os.path.join(args.input_root, video_name)+'.mp4'
+            features = get_visual_features(video_path, fps=args.fps, stride=args.stride, batch_size=args.batch_size)
+            # gpu cache available report in GB
+            # print(torch.cuda.memory_summary(device=None, abbreviated=False))
+            np.save(save_path, features)
 

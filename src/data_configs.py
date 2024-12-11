@@ -8,7 +8,7 @@ DATASETS={
         # 'stride': 20,
         'stride': 20,
         # 'max_stride_factor': 0.5,
-        'max_stride_factor': 0.5,
+        'max_stride_factor': 1,
         'splits': {
             'default': {
                 # 'annotation_file': 'dataset/charades-sta/charades_test.json',
