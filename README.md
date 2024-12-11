@@ -32,7 +32,7 @@ conda create -n snap
 conda activate snap
 pip install -r requirements.txt
 ```
-- creates an anaconda environment named `ual-bench` and installs the necessary dependencies.
+
 
 ## 📂 Dataset
 
