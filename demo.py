@@ -80,6 +80,6 @@ def infer(video_path, query, stride=64, max_stride_factor=1, pad_sec=0.0):
 
 if __name__=='__main__':
     args = get_args()
-    eval(args.video_path, args.query, stride=64, max_stride_factor=1, pad_sec=0.0)
-
+    infer(args.video_path, args.query, stride=64, max_stride_factor=1, pad_sec=0.0)
+    
   
