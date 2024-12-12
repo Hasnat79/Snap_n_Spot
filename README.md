@@ -51,7 +51,7 @@ python feature_extraction.py
 ## 🧠 Methodology __ [Colab demo](https://colab.research.google.com/drive/1QoMa01UGrx71p838uAXrTAokb1xPEct8?usp=sharing)
 ```bash 
 cd src
-python evaluate.py --dataset uag_oops
+python infer_snap.py --dataset uag_oops
 ```
 - generates the metrics for zero-shot unusual activity localization on UAG-OOPS dataset using the Snap&Spot pipeline.
 <details>
