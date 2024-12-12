@@ -187,28 +187,4 @@ def localize(video_feature, duration, query_json, stride, max_stride):
     
     return answer
 
-if __name__=='__main__':
-    data = {
-    "vid": {
-        "duration": 3.64,
-        "timestamps": [[2.714329, 3.75]],
-        "sentences": ["A guy jumps onto a bed where his son is. When the guy jumps, the son flies up and hits the wall."]
-    }
-} 
-    feature = np.load('/scratch/user/hasnat.md.abdullah/TFVTG/misc/sample_videos/vid.npy')
 
-    for vid,ann in data.items():
-        query_json = []
-        for i in range(len(ann['sentences'])):
-            query_json.append({'descriptions': [ann['sentences'][i]]})
-
-        duration = ann['duration'] if 'duration' in ann else ann['video_duration']
-
-    
-        max_stride_factor = 0.5
-        print(f"feature.shape: {feature.shape}")
-        print(f"max_stride_factor: {max_stride_factor}")
-        max_stride = int (feature.shape[0] * max_stride_factor)
-        print(f"max_stride: {max_stride}")
-        ans = localize(feature, duration, query_json, stride=20, max_stride=max_stride)
-        print(f"ans: {ans}")
